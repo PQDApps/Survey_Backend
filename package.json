@@ -9,6 +9,6 @@
     "mongodb": "^2.0.55"
   },
   "scripts": {
-  	"start": "index.js"
+  	"start": "node index.js"
   }
 }
