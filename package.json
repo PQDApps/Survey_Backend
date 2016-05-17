@@ -1,0 +1,10 @@
+{
+  "name": "Survey Backend",
+  "version": "0.0.1",
+  "description": "API to save user and user information.",
+  "dependencies": {
+    "express": "^4.10.2",
+    "mongodb": "~2.0",
+    "body-parser": "~1.0.1"
+  }
+}
