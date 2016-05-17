@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "description": "API to save user and user information.",
   "dependencies": {
+    "body-parser": "~1.0.1",
     "express": "^4.10.2",
-    "mongodb": "~2.0",
-    "body-parser": "~1.0.1"
+    "kerberos": "0.0.21",
+    "mongodb": "^2.0.55"
   }
 }
