@@ -18,6 +18,7 @@ app.get('/', function(req, res){
 ////////////////////////////
 // Mongo Database Testing //
 ////////////////////////////
+/*
 var mongoURL = "mongodb://localhost:27017/local";
 MongoClient.connect(mongoURL, function(err, db) {
     if(!err) {
@@ -39,6 +40,7 @@ function saveNewUser(user, pass) {
     } 
   })   
 }
+*/
 
 // API Example: localhost:5000/api
 router.get('/', function(req, res) {
