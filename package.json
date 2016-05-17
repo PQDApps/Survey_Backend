@@ -1,5 +1,5 @@
 {
-  "name": "Survey Backend",
+  "name": "Survey_Backend",
   "version": "0.0.1",
   "description": "API to save user and user information.",
   "dependencies": {
