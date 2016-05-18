@@ -18,8 +18,7 @@ app.get('/', function(req, res){
 ////////////////////////////
 // Mongo Database Testing //
 ////////////////////////////
-/*
-var mongoURL = "mongodb://localhost:27017/local";
+var mongoURL = "mongodb://pquinone:samusaran1@ds025792.mlab.com:25792/survey_info";
 MongoClient.connect(mongoURL, function(err, db) {
     if(!err) {
         console.log("Connected to Mongo Local");
@@ -40,7 +39,6 @@ function saveNewUser(user, pass) {
     } 
   })   
 }
-*/
 
 // API Example: localhost:5000/api
 router.get('/', function(req, res) {
