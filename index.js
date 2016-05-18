@@ -18,8 +18,9 @@ app.get('/', function(req, res){
 ////////////////////////////
 // Mongo Database Testing //
 ////////////////////////////
-var mongoURL = "mongodb://pquinone:samusaran1@ds025792.mlab.com:25792/survey_info";
+var mongoURL = "mongodb://user:user@ds025792.mlab.com:25792/survey_info";
 MongoClient.connect(mongoURL, function(err, db) {
+    console.log(err);
     if(!err) {
         console.log("Connected to Mongo Local");
     }
@@ -56,18 +57,18 @@ router.post('/signupnow', function(req,res){
   //res.json({message: req.body});
   var user = req.body.userName;
   var pass = req.body.password;
-  var userExists = false;
+  //var userExists = false;
   //var resultOfInsert = saveNewUser(user, pass);
   MongoClient.connect(mongoURL, function(err, db) {
   if (!err) {
     var users = db.collection("users");
-    var cursor = db.collection('users').findOne({ "email" : user});
-    cursor.each(function(err, doc){
+    //var cursor = db.collection('users').findOne({ "email" : user});
+    /*cursor.each(function(err, doc){
       assert.equal(err, null);
       if (doc != null) {
         userExists = true;               
       }  
-    });
+    });*/
     users.insert({email: user, password: pass}, function createUser (err, result){
         if (err) {
           res.json({Success: false, error: err})           
