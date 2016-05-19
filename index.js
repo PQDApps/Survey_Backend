@@ -19,27 +19,13 @@ app.get('/', function(req, res){
 // Mongo Database Testing //
 ////////////////////////////
 var mongoURL = "mongodb://user:user@ds025792.mlab.com:25792/survey_info";
+//var mongoURL = "mongodb://localhost:27017/local";
 MongoClient.connect(mongoURL, function(err, db) {
     console.log(err);
     if(!err) {
         console.log("Connected to Mongo Local");
     }
 });
-
-function saveNewUser(user, pass) {  
-  MongoClient.connect(mongoURL, function(err, db) {
-  if (!err) {
-    var users = db.collection("users")
-    users.insert({email: user, password: pass}, function(err, result){
-        if (err) {
-          return err; 
-        }        
-        console.log(result);
-        return this.result;          
-      });
-    } 
-  })   
-}
 
 // API Example: localhost:5000/api
 router.get('/', function(req, res) {
@@ -53,12 +39,33 @@ router.get('/login', function(req, res){
 
 //Sign up API, userName and password
 router.post('/signupnow', function(req,res){
-  console.log(req);
-  //res.json({message: req.body});
   var user = req.body.userName;
   var pass = req.body.password;
-  //var userExists = false;
-  //var resultOfInsert = saveNewUser(user, pass);
+  MongoClient.connect(mongoURL, function(err, db) {
+    if (!err) {
+      var users = db.collection("users");
+      users.findOne({"email" : user}, function(err, usersItem){
+        if (err) {
+          console.log("Mongo error: " + err);
+        }
+        if (!usersItem) {
+          console.log("User not found, creating new user");
+          users.insert({email: user, password: pass}, function createUser (err, result){
+            if (err) {
+              res.status(500).send({Success: false, error: err});           
+            }        
+            console.log(result);
+            res.status(200).send({Status: 'Success'});                 
+          });
+        } else {
+          res.status(409).send({Message: "User already exists"});
+          console.log("USER EXISTS");
+        }
+      })
+     }
+  })
+  
+  /*
   MongoClient.connect(mongoURL, function(err, db) {
   if (!err) {
     var users = db.collection("users");
@@ -68,7 +75,7 @@ router.post('/signupnow', function(req,res){
       if (doc != null) {
         userExists = true;               
       }  
-    });*/
+    });
     users.insert({email: user, password: pass}, function createUser (err, result){
         if (err) {
           res.json({Success: false, error: err})           
@@ -78,10 +85,24 @@ router.post('/signupnow', function(req,res){
         //res.sendStatus(200);                  
       });
     }
-  })
+  })*/
   //res.json({Status: true});
   //res.sendStatus(200); 
 })
+
+function verifyUser(user, callback) {
+  MongoClient.connect(mongoURL, function(err, db){
+    var cursor = db.collection('users').findOne({ "email" : user});
+    cursor.each(function(err, doc){
+        assert.equal(err, null);
+        if (doc != null) {
+          callback(true);                       
+        } else {
+          return false;
+        }  
+    })
+  }); 
+}
 
 // Register our api urls with /api
 app.use('/api', router);
