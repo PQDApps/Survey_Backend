@@ -7,6 +7,20 @@ var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var bcrypt = require('bcrypt');
+const saltRounds = 10;
+const password = 'password';
+const someOther = 'bacon';
+var hashi = "";
+
+// hash password
+bcrypt.genSalt(saltRounds, function(err, salt) {
+  bcrypt.hash(password, salt, function(err, hash) {
+    console.log(hash);
+        bcrypt.compare(password, hash, function(err,res){
+          console.log(res + " " + password + " " + hash);
+      });           
+  });
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -34,29 +48,64 @@ router.get('/', function(req, res) {
 });
 
 // Stuff
-router.get('/login', function(req, res){
-  res.status(200).send({message : "HELLO"})
+router.post('/login', function(req, res){
+  //res.status(200).send({message : "HELLO"})
+  var user = req.body.userName;
+  var pass = req.body.password;
+  MongoClient.connect(mongoURL, function(err, db) {
+    if (!err) {
+      var users = db.collection("users");
+      users.findOne({"email" : user}, function findUser (err, usersItem){ // Find the user
+        if (err) {
+          console.log("Mongo error: " + err);
+        }
+        console.log(usersItem);        
+        if (usersItem) { //If user is found       
+          bcrypt.compare(pass, usersItem.password, function(err,response){ // compare the password and the hash in mongo           
+            if (response == true){
+              res.status(200).send({Status: 'Success'});
+            }else{
+               res.status(401).send({Message: 'Password is incorrect'});
+            }
+          });
+        } else {
+          res.status(404).send({Message: 'Username does not exist'});
+        }
+      }); 
+    }
+  });
 })
 
 //Sign up API, userName and password
 router.post('/signupnow', function(req,res){
   var user = req.body.userName;
   var pass = req.body.password;
+  var passHash = "";
   MongoClient.connect(mongoURL, function(err, db) {
-    if (!err) {
+    if (!err) {      
       var users = db.collection("users");
-      users.findOne({"email" : user}, function(err, usersItem){
+      users.findOne({"email" : user}, function findUser (err, usersItem){
         if (err) {
           console.log("Mongo error: " + err);
-        }
+        }        
         if (!usersItem) {
           console.log("User not found, creating new user");
-          users.insert({email: user, password: pass}, function createUser (err, result){
-            if (err) {
-              res.status(500).send({Success: false, error: err});           
-            }        
-            console.log(result);
-            res.status(200).send({Status: 'Success'});                 
+          bcrypt.genSalt(saltRounds, function(err, salt) {
+            bcrypt.hash(pass, salt, function(err, hash) {
+                if (err)
+                {
+                  res.status(500).send({Success: false, error: err}); 
+                }
+                passHash = hash;
+                console.log(hash);
+                users.insert({email: user, password: passHash}, function createUser (err, result){
+                  if (err) {
+                    res.status(500).send({Success: false, error: err});           
+                  }        
+                  console.log(result);
+                  res.status(200).send({Status: 'Success'});                 
+                });                  
+              });
           });
         } else {
           res.status(409).send({Message: "User already exists"});
