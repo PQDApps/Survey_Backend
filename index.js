@@ -33,8 +33,8 @@ app.get('/', function(req, res){
 ////////////////////////////
 // Mongo Database Testing //
 ////////////////////////////
-//var mongoURL = "mongodb://user:user@ds025792.mlab.com:25792/survey_info";
-var mongoURL = "mongodb://localhost:27017/local";
+var mongoURL = "mongodb://user:user@ds025792.mlab.com:25792/survey_info";
+//var mongoURL = "mongodb://localhost:27017/local";
 MongoClient.connect(mongoURL, function(err, db) {
     console.log(err);
     if(!err) {
