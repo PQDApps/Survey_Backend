@@ -38,9 +38,8 @@
         $(document).ready(function(){
             $('#login').submit(function(event){
                 event.preventDefault();
-                var data = $('#login').serialize();
-                
-                $.get('/api/login', data, function(resp){
+                var data = $('#login').serialize();                
+                $.post('/api/login', data, function(resp){
                     console.log(resp);
                 });                
             });

@@ -118,6 +118,11 @@ router.post('/signupnow', function(req,res){
 router.post('/saveinfo', function(req,res){
   var user = req.body.user;
   var eligibility = req.body.eligibility;
+  if (req.body.eligibility == "on"){
+    eligibility = true;
+  } else {
+    eligibility = false;
+  }
   var firstName = req.body.firstName;
   var middleName = req.body.middleName;
   var lastName = req.body.lastName;

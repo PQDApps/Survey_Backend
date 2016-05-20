@@ -60,6 +60,62 @@
         </div>
         <button class="btn-wisteria" type="submit">Sign Up</button>
       </form>
+    </div>
+    <br>
+    <br>
+    <br>
+    
+    
+    
+    
+    
+     <!--"user":"pedro@aaa.com",
+    "eligibility" : true,
+    "firstName":"Pedro",
+    "middleName":"",
+    "lastName":"Quinonez",
+    "suffix":"Mr.",
+    "birthday":"5/15/1988",
+    "identification":"CO drivers license",
+    "street" : "1518 Ohio St",
+    "city":"Aurora",
+    "state":"CO",
+    "zipcode":"80014",
+    "party":"Green"-->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#saveinfo').submit(function(event){
+                event.preventDefault();
+                var data = $('#saveinfo').serialize();
+                
+                $.post('/api/saveinfo', data, function(resp){
+                    console.log(resp);
+                });                
+            });
+        });
+    </script>
+    <div style="width:330px;margin:0 auto">
+      <form id="saveinfo" class="form-signin">
+        <h2 class="form-signin-heading">User Info</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input name="user" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <input name="eligibility" type="checkbox" id="eligibilityCitizen" class="form-remember" placeholder="Eligibility" required>U.S Citizen
+        <input name="firstName" type="text" id="firstname" class="form-control" placeholder="First Name" required>
+        <input name="middleName" type="text" id="middlename" class="form-control" placeholder="Middle Name">
+        <input name="lastName" type="text" id="lastname" class="form-control" placeholder="Last Name" required>
+        <input name="suffix" type="text" id="suffix" class="form-control" placeholder="Suffix (Mr., Mrs., etc.)" required>
+        <input name="birthday" type="date" id="birthday" class="form-control" placeholder="MM/DD/YYYY" required>
+        <input name="identification" type="text" id="identification" class="form-control" placeholder="Identification" required>
+        <input name="street" type="text" id="street" class="form-control" placeholder="Street address" required>
+        <input name="city" type="text" id="city" class="form-control" placeholder="City" required>
+        <input name="state" type="text" id="state" class="form-control" maxlength="2" placeholder="State" required>
+        <input name="zipcode" type="text" id="zip" class="form-control" maxlength="5" placeholder="Zip Code" required>
+        <select name="party" class="form-control">
+            <option value="Green">Green</option>
+            <option value="Other">Other</option>
+        </select>
+        <button class="btn-wisteria" type="submit">Save Info</button>
+      </form>
     </div> 
 </body>
 
