@@ -41,6 +41,12 @@
                 
                 $.post('/api/signupnow', data, function(resp){
                     console.log(resp);
+                    if (resp.Status == "Success"){
+                        window.alert("Sign up successful");
+                    } else {
+                        window.alert("Error: already exists");
+                    }                  
+                    
                 });                
             });
         });
@@ -90,6 +96,11 @@
                 
                 $.post('/api/saveinfo', data, function(resp){
                     console.log(resp);
+                    if (resp.Status == "Success"){
+                        window.alert("Info saved successfuly");
+                    } else {
+                        window.alert("Error");
+                    }
                 });                
             });
         });
@@ -110,7 +121,7 @@
         <input name="city" type="text" id="city" class="form-control" placeholder="City" required>
         <input name="state" type="text" id="state" class="form-control" maxlength="2" placeholder="State" required>
         <input name="zipcode" type="text" id="zip" class="form-control" maxlength="5" placeholder="Zip Code" required>
-        <select name="party" class="form-control">
+        <select name="party" class="form-control" required>
             <option value="Green">Green</option>
             <option value="Other">Other</option>
         </select>

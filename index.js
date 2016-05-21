@@ -173,6 +173,26 @@ router.post('/saveinfo', function(req,res){
    })
 })
 
+router.post('/vote', function(req,res){
+  var vote = req.body.vote;
+  var user = req.body.userName;
+  MongoClient.connect(mongoURL, function(err, db) {
+    if (err) {
+      res.status(500).send({Success: false, error: err});
+    }
+    if (!err) {
+      var voteCollection = db.collection("votes");
+      voteCollection.insert({email: user, vote: vote}, function saveVote (err, result){
+        if (err) {
+          res.status(500).send({Success: false, error: err});           
+        }        
+        console.log(result);
+        res.status(200).send({Status: 'Success'});                 
+      });
+    }
+  })
+})
+
 // Register our api urls with /api
 app.use('/api', router);
 

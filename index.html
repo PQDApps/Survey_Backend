@@ -60,6 +60,36 @@
         </div>
         <button class="btn-wisteria" type="submit">Log In</button>
       </form>
+    </div>
+    <br>
+    <br>
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#voting').submit(function(event){
+                event.preventDefault();
+                var data = $('#voting').serialize();                
+                $.post('/api/vote', data, function(resp){
+                    console.log(resp);
+                });                
+            });
+        });
+    </script>
+    <div style="width:330px;margin:0 auto">
+      <form id="voting" class="form-signin">
+        <h2 class="form-signin-heading">Vote for someone yo</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input name="userName" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <select name="vote" class="form-control" required>
+            <option value="Green">Jesus</option>
+            <option value="Ghandi">Ghandi</option>
+            <option value="Genghis Khan">Genghis Khan</option>
+            <option value="Troy Mclure">Troy Mclure</option>
+            <option value="Duffman">Duffman</option>
+            <option value="Mr. Satan">Mr. Satan</option>
+        </select>
+        <button class="btn-wisteria" type="submit">Vote</button>
+      </form>
     </div> 
 </body>
 
