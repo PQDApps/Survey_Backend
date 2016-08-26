@@ -16,12 +16,13 @@
     <!-- Custom CSS -->
     <link href="css/stylish-portfolio.css" rel="stylesheet">
 
-    <!-- Custom Fonts -->
+    <!-- Custom Fonts 
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    -->
     <script src="/lib/cdnJQuery.js"></script>
-
+    
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,25 +36,18 @@
 <body>
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#signup').submit(function(event){
+            $('#login').submit(function(event){
                 event.preventDefault();
-                var data = $('#signup').serialize();
-                
-                $.post('/api/signupnow', data, function(resp){
+                var data = $('#login').serialize();                
+                $.post('/api/login', data, function(resp){
                     console.log(resp);
-                    if (resp.Status == "Success"){
-                        window.alert("Sign up successful");
-                    } else {
-                        window.alert("Error: already exists");
-                    }                  
-                    
                 });                
             });
         });
     </script>
     <div style="width:330px;margin:0 auto">
-      <form id="signup" class="form-signin">
-        <h2 class="form-signin-heading">Register for BurritoGo</h2>        
+      <form id="login" class="form-signin">
+        <h2 class="form-signin-heading">Please log in</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input name="userName" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
@@ -62,14 +56,41 @@
           <label class="form-remember">
             <input type="checkbox" value="remember-me"> Remember me
           </label>
-          <a href="/index.html" style="float:right">Login</a>
+          <a style="float:right" href="/signuplogin.html">Register</a>
         </div>
-        <button class="btn-wisteria" type="submit">Sign Up</button>
+        <button class="btn-wisteria" type="submit">Log In</button>
       </form>
     </div>
     <br>
     <br>
-    <br>
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#voting').submit(function(event){
+                event.preventDefault();
+                var data = $('#voting').serialize();                
+                $.post('/api/vote', data, function(resp){
+                    console.log(resp);
+                });                
+            });
+        });
+    </script>
+    <div style="width:330px;margin:0 auto">
+      <form id="voting" class="form-signin">
+        <h2 class="form-signin-heading">Vote for someone yo</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input name="userName" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <select name="vote" class="form-control" required>
+            <option value="Green">Jesus</option>
+            <option value="Ghandi">Ghandi</option>
+            <option value="Genghis Khan">Genghis Khan</option>
+            <option value="Troy Mclure">Troy Mclure</option>
+            <option value="Duffman">Duffman</option>
+            <option value="Mr. Satan">Mr. Satan</option>
+        </select>
+        <button class="btn-wisteria" type="submit">Vote</button>
+      </form>
+    </div> 
 </body>
 
 </html>
