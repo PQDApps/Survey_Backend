@@ -42,7 +42,8 @@
                 $.post('/api/signupnow', data, function(resp){
                     console.log(resp);
                     if (resp.Status == "Success"){
-                        window.alert("Sign up successful");
+                        window.location.href = "/thanks.html";
+                        //window.alert("Sign up successful");
                     } else {
                         window.alert("Error: already exists");
                     }                  
